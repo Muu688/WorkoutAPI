@@ -28,7 +28,8 @@ namespace WorkoutAPI
             {
                 connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
             }
-
+            System.Console.Beep();
+            System.Console.WriteLine(connectionString);
             services.AddEntityFrameworkNpgsql().AddDbContext<WorkoutContext>(options =>
                 options.UseNpgsql(connectionString)
             );

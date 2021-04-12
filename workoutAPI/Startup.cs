@@ -37,18 +37,6 @@ namespace WorkoutAPI
                 options.UseNpgsql(connectionString)
             );
 
-            //services.AddDbContext<WorkoutContext>(options =>
-            //    options.UseNpgsql(Configuration.GetConnectionString("WORKOUT"))
-            //);
-
-            //services.AddEntityFrameworkNpgsql().AddDbContext<WorkoutContext>(options =>
-            //    options.UseNpgsql(Configuration.GetConnectionString("WORKOUT"))
-            //);
-
-            //services.AddDbContext<ExerciseContext>(options =>
-            //    options.UseNpgsql(Configuration.GetConnectionString("WORKOUT"))
-            //);
-
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(

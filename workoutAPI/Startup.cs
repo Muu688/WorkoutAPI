@@ -33,7 +33,7 @@ namespace WorkoutAPI
             string connectionString = Configuration.GetConnectionString("WORKOUT");
             if (environment.ToLower() == "production")
             {
-                connectionString = $@"Host={DATABASE_URL};Database={database};Username={user};Password={password}";
+                connectionString = $@"Host={DATABASE_URL};Port={port};Database={database};Username={user};Password={password}";
             }
                         
             System.Console.WriteLine(connectionString);

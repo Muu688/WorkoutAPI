@@ -30,7 +30,7 @@ namespace WorkoutAPI
             string port = Environment.GetEnvironmentVariable("port") ?? "";
             string database = Environment.GetEnvironmentVariable("database") ?? "";
 
-            string connectionString = Configuration.GetConnectionString($@"Host={DATABASE_URL};Database={database};Username={user};Password={password}");
+            string connectionString = $@"Host={DATABASE_URL};Database={database};Username={user};Password={password}";
             if (environment.ToLower() == "production")
             {
                 connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");

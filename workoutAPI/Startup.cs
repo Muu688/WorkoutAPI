@@ -22,13 +22,25 @@ namespace WorkoutAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string environment = Environment.GetEnvironmentVariable("Environment");
-            string connectionString = Configuration.GetConnectionString("WORKOUT");
+            // To-Do move to its own class...
+            string environment = Environment.GetEnvironmentVariable("Environment") ?? "";
+            string DATABASE_URL = Environment.GetEnvironmentVariable("DATABASE_URL") ?? "";
+            string user = Environment.GetEnvironmentVariable("user") ?? "";
+            string password = Environment.GetEnvironmentVariable("password") ?? "";
+            string port = Environment.GetEnvironmentVariable("port") ?? "";
+            string database = Environment.GetEnvironmentVariable("database") ?? "";
+
+            string connectionString = Configuration.GetConnectionString($@"Host={DATABASE_URL};Database={database};Username={user};Password={password}");
             if (environment.ToLower() == "production")
             {
                 connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
             }
-            System.Console.Beep();
+                        
+            System.Console.WriteLine(connectionString);
+            System.Console.WriteLine(connectionString);
+            System.Console.WriteLine(connectionString);
+            System.Console.WriteLine(connectionString);
+            System.Console.WriteLine(connectionString);
             System.Console.WriteLine(connectionString);
             services.AddEntityFrameworkNpgsql().AddDbContext<WorkoutContext>(options =>
                 options.UseNpgsql(connectionString)

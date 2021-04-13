@@ -43,11 +43,24 @@ namespace WorkoutAPI
             }
         }
 
+        private static bool IsDevelopment =>
+       Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+
+        public static string HostPort =>
+       IsDevelopment
+           ? "5000"
+           : Environment.GetEnvironmentVariable("PORT");
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults((webBuilder) =>
+            {
+                webBuilder.UseUrls($"http://+:{HostPort}");
+                //webBuilder.UseSerilog((context, config) =>
+                //{
+                //    config.ReadFrom.Configuration(context.Configuration);
+                //});
+                webBuilder.UseStartup<Startup>();
+            });
     }
 }

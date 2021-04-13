@@ -19,29 +19,29 @@ namespace WorkoutAPI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // To-Do move to its own class...
-            string environment = Environment.GetEnvironmentVariable("Environment") ?? "";
-            string DATABASE_URL = Environment.GetEnvironmentVariable("DATABASE_URL") ?? "";
-            string user = Environment.GetEnvironmentVariable("user") ?? "";
-            string password = Environment.GetEnvironmentVariable("password") ?? "";
-            string port = Environment.GetEnvironmentVariable("port") ?? "";
-            string database = Environment.GetEnvironmentVariable("database") ?? "";
+        #region stuff
 
-            string connectionString = Configuration.GetConnectionString("WORKOUT");
-            if (environment.ToLower() == "production")
-            {
-                connectionString = $@"Host={DATABASE_URL};Port={port};Database={database};Username={user};Password={password}";
-            }
-                        
-            System.Console.WriteLine(connectionString);
-            System.Console.WriteLine(connectionString);
-            System.Console.WriteLine(connectionString);
-            System.Console.WriteLine(connectionString);
-            System.Console.WriteLine(connectionString);
-            System.Console.WriteLine(connectionString);
+        private string GetHerokuConnectionString()
+        {
+            // Get the connection string from the ENV variables
+            string connectionUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+            // parse the connection string
+            var databaseUri = new Uri(connectionUrl);
+
+            string db = databaseUri.LocalPath.TrimStart('/');
+            string[] userInfo = databaseUri.UserInfo.Split(':', StringSplitOptions.RemoveEmptyEntries);
+
+            return $"User ID={userInfo[0]};Password={userInfo[1]};Host={databaseUri.Host};Port={databaseUri.Port};Database={db};Pooling=true;SSL Mode=Require;Trust Server Certificate=True;";
+        }
+
+    #endregion stuff
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+        {
+            string connectionString = GetHerokuConnectionString();
+            
             services.AddEntityFrameworkNpgsql().AddDbContext<WorkoutContext>(options =>
                 options.UseNpgsql(connectionString)
             );
@@ -58,12 +58,15 @@ namespace WorkoutAPI
                         builder.WithOrigins("https://localhost:4200").AllowAnyHeader();
                     });
             });
-
+            // https://devcenter.heroku.com/articles/connecting-to-heroku-postgres-databases-from-outside-of-heroku
+            // https://n1ghtmare.github.io/2020-09-28/deploying-a-dockerized-aspnet-core-app-using-a-postgresql-db-to-heroku/
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WorkoutAPI", Version = "v1" });
             });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -39,6 +39,7 @@ namespace WorkoutAPI.Models
         {
             Console.WriteLine("Creating Exercise");
             modelBuilder.Entity<Exercise>().ToTable("Exercise");
+            Console.WriteLine("On Model Creating: " + GetHerokuConnectionString());
             Console.WriteLine("Creating Workout");
             modelBuilder.Entity<Workout>().ToTable("Workout");
             Console.WriteLine("Creating MuscleGroup");

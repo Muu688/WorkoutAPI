@@ -56,6 +56,7 @@ namespace WorkoutAPI
                     builder =>
                     {
                         builder.WithOrigins("https://localhost:4200").AllowAnyHeader();
+                        builder.WithOrigins("https://workout-angular-jvb.herokuapp.com").AllowAnyHeader();
                     });
             });
             // https://devcenter.heroku.com/articles/connecting-to-heroku-postgres-databases-from-outside-of-heroku

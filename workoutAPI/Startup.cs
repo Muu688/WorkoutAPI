@@ -62,18 +62,10 @@ namespace WorkoutAPI
                     builder =>
                     {
                         //string[] allowedHosts = { "https://localhost:4200", "https://workout-angular-jvb.herokuapp.com" };  //builder.WithOrigins("https://localhost:4200").AllowAnyHeader();
-                        builder.WithOrigins("https://localhost:4200").AllowAnyHeader();
+                        builder.WithOrigins("https://workout-angular-jvb.herokuapp.com", "https://localhost:4200").AllowAnyHeader();
                     });
             });
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        //string[] allowedHosts = { "https://localhost:4200", "https://workout-angular-jvb.herokuapp.com" };  //builder.WithOrigins("https://localhost:4200").AllowAnyHeader();
-                        builder.WithOrigins("https://workout-angular-jvb.herokuapp.com").AllowAnyHeader();
-                    });
-            });
+            
             // https://devcenter.heroku.com/articles/connecting-to-heroku-postgres-databases-from-outside-of-heroku
             // https://n1ghtmare.github.io/2020-09-28/deploying-a-dockerized-aspnet-core-app-using-a-postgresql-db-to-heroku/
             services.AddControllers();

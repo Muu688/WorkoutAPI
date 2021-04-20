@@ -35,13 +35,19 @@ namespace WorkoutAPI
             return $"User ID={userInfo[0]};Password={userInfo[1]};Host={databaseUri.Host};Port={databaseUri.Port};Database={db};Pooling=true;SSL Mode=Require;Trust Server Certificate=True;";
         }
 
-    #endregion stuff
+        #endregion stuff
 
-    // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services)
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = GetHerokuConnectionString();
-            
+            string connectionString;
+            string environment = Environment.GetEnvironmentVariable("Environment") ?? "";
+
+            if (environment.ToLower() == "production")
+                connectionString = GetHerokuConnectionString();
+            else
+                connectionString = Configuration.GetConnectionString("WORKOUT");
+
             services.AddEntityFrameworkNpgsql().AddDbContext<WorkoutContext>(options =>
                 options.UseNpgsql(connectionString)
             );
@@ -66,8 +72,6 @@ namespace WorkoutAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WorkoutAPI", Version = "v1" });
             });
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -61,8 +61,17 @@ namespace WorkoutAPI
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        string[] allowedHosts = { "https://localhost:4200", "https://workout-angular-jvb.herokuapp.com" };  //builder.WithOrigins("https://localhost:4200").AllowAnyHeader();
-                        builder.WithOrigins(allowedHosts).AllowAnyHeader();
+                        //string[] allowedHosts = { "https://localhost:4200", "https://workout-angular-jvb.herokuapp.com" };  //builder.WithOrigins("https://localhost:4200").AllowAnyHeader();
+                        builder.WithOrigins("https://localhost:4200").AllowAnyHeader();
+                    });
+            });
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        //string[] allowedHosts = { "https://localhost:4200", "https://workout-angular-jvb.herokuapp.com" };  //builder.WithOrigins("https://localhost:4200").AllowAnyHeader();
+                        builder.WithOrigins("https://workout-angular-jvb.herokuapp.com").AllowAnyHeader();
                     });
             });
             // https://devcenter.heroku.com/articles/connecting-to-heroku-postgres-databases-from-outside-of-heroku

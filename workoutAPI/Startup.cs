@@ -62,7 +62,7 @@ namespace WorkoutAPI
                     builder =>
                     {
                         //string[] allowedHosts = { "https://localhost:4200", "https://workout-angular-jvb.herokuapp.com" };  //builder.WithOrigins("https://localhost:4200").AllowAnyHeader();
-                        builder.WithOrigins("https://workout-angular-jvb.herokuapp.com", "https://localhost:4200").AllowAnyHeader();
+                        builder.WithOrigins("https://workout-angular-jvb.herokuapp.com").AllowAnyHeader(); // , "https://localhost:4200"
                     });
             });
             
